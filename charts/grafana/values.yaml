@@ -649,6 +649,8 @@ imageRenderer:
   # image-renderer deployment Host Aliases
   hostAliases: []
   # image-renderer deployment priority class
+  rendering_callback_url: ""
+  rendering_server_url: ""
   priorityClassName: ''
   service:
     # image-renderer service port name

@@ -342,10 +342,22 @@ containers:
             key: {{ .Values.smtp.passwordKey | default "password" }}
       {{- end }}
       {{ if .Values.imageRenderer.enabled }}
+      {{- if .Values.imageRenderer.rendering_server_url -}}
+      - name: GF_RENDERING_SERVER_URL
+        value: {{ .Values.imageRenderer.rendering_server_url }}
+      {{- else }}
       - name: GF_RENDERING_SERVER_URL
         value: http://{{ template "grafana.fullname" . }}-image-renderer.{{ template "grafana.namespace" . }}:{{ .Values.imageRenderer.service.port }}/render
+      {{ end }}
+      {{ end }}
+      {{- if .Values.imageRenderer.rendering_callback_url -}}
+      - name: GF_RENDERING_CALLBACK_URL
+        value: {{ .Values.imageRenderer.rendering_callback_url }}
+      {{- else }}
       - name: GF_RENDERING_CALLBACK_URL
         value: http://{{ template "grafana.fullname" . }}.{{ template "grafana.namespace" . }}:{{ .Values.service.port }}/
+      {{ end }}
+      {{ end }}
       {{ end }}
     {{- range $key, $value := .Values.envValueFrom }}
       - name: {{ $key | quote }}
